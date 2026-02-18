@@ -81,6 +81,17 @@
       f.onload = function() { setTimeout(function(){ document.getElementById('loader').classList.add('hidden'); }, 800); };
       setTimeout(function(){ document.getElementById('loader').classList.add('hidden'); }, 15000);
     }
+
+    // Listen for navigation messages from the iframe (Apps Script pages)
+    window.addEventListener('message', function(e) {
+      if (e.data && e.data.type === 'navigate' && e.data.url) {
+        var f = document.getElementById('f');
+        document.getElementById('loader').classList.remove('hidden');
+        f.src = e.data.url;
+        f.onload = function() { setTimeout(function(){ document.getElementById('loader').classList.add('hidden'); }, 800); };
+        setTimeout(function(){ document.getElementById('loader').classList.add('hidden'); }, 15000);
+      }
+    });
   </script>
 </body>
 </html>
