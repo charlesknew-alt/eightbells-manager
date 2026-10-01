@@ -209,6 +209,7 @@
     .pub-link.menus .link-icon { background: rgba(107, 45, 91, 0.12); }
     .pub-link.cardtakings .link-icon { background: rgba(223, 194, 175, 0.45); }
     .pub-link.pricing .link-icon { background: rgba(45, 90, 61, 0.12); }
+    .pub-link.giftcards .link-icon { background: rgba(182, 138, 58, 0.18); }
     .link-label { flex: 1; }
     .link-label small {
       display: block;
@@ -358,6 +359,11 @@
           <span class="link-label">Drink Pricing<small>Bar sell prices</small></span>
           <span class="link-arrow" aria-hidden="true">›</span>
         </button>
+        <button type="button" class="pub-link giftcards" onclick="openDept('giftcards')">
+          <span class="link-icon" aria-hidden="true">🎁</span>
+          <span class="link-label">Gift cards<small>Staff login — issue &amp; redeem vouchers</small></span>
+          <span class="link-arrow" aria-hidden="true">›</span>
+        </button>
       </div>
     </div>
     <div class="footer">
@@ -389,7 +395,7 @@
       },
       menus: {
         title: 'Menus',
-        url: 'https://owner.kinfoldinns.co.uk/menus.html?mode=staff&v=20260927-flow96'
+        url: 'https://owner.kinfoldinns.co.uk/menus.html?mode=staff&v=20260928-flow121'
       },
       cards: {
         title: 'Card Takings',
@@ -398,6 +404,12 @@
       pricing: {
         title: 'Drink Pricing',
         url: HUB + '?page=kegcosting'
+      },
+      // Staff gift-card portal on the pub site. Password is VOUCHER_STAFF_PASSWORD
+      // in Vercel — never store it in this repo.
+      giftcards: {
+        title: 'Gift cards',
+        url: 'https://www.eightbellsbolney.com/staff/vouchers'
       }
     };
 
