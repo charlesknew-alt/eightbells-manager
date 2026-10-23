@@ -403,10 +403,7 @@
       },
       pricing: {
         title: 'Drink Pricing',
-        // Same Varlo staff tool as app.varlo.co.uk/drinks-pricing (not the old
-        // PubSystem calculator). Top-level so the Varlo login cookie works.
-        url: 'https://app.varlo.co.uk/drinks-pricing?pub=Eight%20Bells',
-        top: true
+        url: 'https://app.varlo.co.uk/drinks-pricing?embed=1&portal=eightbells&pub=Eight%20Bells&theme=light'
       },
       // Staff gift-card portal on the pub site. Password is VOUCHER_STAFF_PASSWORD
       // in Vercel — never store it in this repo.
@@ -498,10 +495,6 @@
     function openDept(id) {
       var dept = DEPTS[id];
       if (!dept) return;
-      if (dept.top) {
-        window.location.href = dept.url;
-        return;
-      }
       currentDept = id;
       document.getElementById('appTitle').textContent = dept.title;
       document.getElementById('landing').classList.remove('show');
