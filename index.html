@@ -416,6 +416,8 @@
     };
 
     var currentDept = null;
+    // Typed hub PIN kept in memory only for website hand-off. Never persist.
+    var rememberedPin = null;
 
     function showLogin() {
       document.getElementById('login').classList.remove('hidden');
@@ -436,6 +438,7 @@
       if (event) event.preventDefault();
       var input = document.getElementById('pw');
       if (input.value.trim() === PIN) {
+        rememberedPin = input.value.trim();
         sessionStorage.setItem('eightbells_auth', 'yes');
         input.value = '';
         document.getElementById('err').classList.remove('show');
@@ -448,11 +451,42 @@
     }
 
     function signOut() {
+      rememberedPin = null;
       sessionStorage.removeItem('eightbells_auth');
       currentDept = null;
       document.getElementById('appFrame').src = 'about:blank';
       document.getElementById('err').classList.remove('show');
       showLogin();
+    }
+
+    function isWebsiteManagerUrl(url) {
+      try {
+        var u = new URL(url, location.href);
+        return u.origin === 'https://www.eightbellsbolney.com' &&
+          u.pathname.indexOf('/manager/') === 0;
+      } catch (e) {
+        return false;
+      }
+    }
+
+    function submitWebsiteHandoff(url, pin) {
+      var u = new URL(url, location.href);
+      var next = u.pathname + (u.search || '');
+      var form = document.createElement('form');
+      form.method = 'POST';
+      form.action = 'https://www.eightbellsbolney.com/api/manager/handoff';
+      function addField(name, value) {
+        var input = document.createElement('input');
+        input.type = 'hidden';
+        input.name = name;
+        input.value = value;
+        form.appendChild(input);
+      }
+      addField('pub', 'eight-bells');
+      addField('pin', pin);
+      addField('next', next);
+      document.body.appendChild(form);
+      form.submit();
     }
 
     function hubScript(url) {
@@ -498,10 +532,15 @@
       var dept = DEPTS[id];
       if (!dept) return;
       // Menus / Card Takings: leave this GitHub Pages shell in the same tab
-      // (location.assign — not the app iframe). Card Takings uses a SameSite=Lax
-      // session cookie; top-level navigation matches Windmill and avoids iframe issues.
+      // (not the app iframe). With the hub PIN in memory, POST hand-off so the
+      // website sets its session cookie; otherwise location.assign and the site
+      // asks for the PIN itself.
       if (id === 'menus' || id === 'cards') {
-        location.assign(dept.url);
+        if (rememberedPin && isWebsiteManagerUrl(dept.url)) {
+          submitWebsiteHandoff(dept.url, rememberedPin);
+        } else {
+          location.assign(dept.url);
+        }
         return;
       }
       currentDept = id;
