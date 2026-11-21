@@ -400,7 +400,8 @@
       },
       cards: {
         title: 'Card Takings',
-        url: HUB + '?page=cardday&shell=owner'
+        // Website manager card takings (same tab — no Apps Script iframe).
+        url: 'https://www.eightbellsbolney.com/manager/eight-bells/card-takings'
       },
       pricing: {
         title: 'Drink Pricing',
@@ -496,9 +497,9 @@
     function openDept(id) {
       var dept = DEPTS[id];
       if (!dept) return;
-      // Menus: leave this GitHub Pages shell and open the website page in the
-      // same tab (its own server PIN; no Apps Script / wrong-Google-account iframe).
-      if (id === 'menus') {
+      // Menus / Card Takings: leave this GitHub Pages shell and open the website
+      // page in the same tab (its own server PIN; no Apps Script iframe).
+      if (id === 'menus' || id === 'cards') {
         location.href = dept.url;
         return;
       }
