@@ -395,7 +395,8 @@
       },
       menus: {
         title: 'Menus',
-        url: 'https://owner.kinfoldinns.co.uk/menus-staff.html'
+        // Website manager menus (server PIN + Menu AI via site API — no Google).
+        url: 'https://www.eightbellsbolney.com/manager/eight-bells/menus'
       },
       cards: {
         title: 'Card Takings',
@@ -495,6 +496,12 @@
     function openDept(id) {
       var dept = DEPTS[id];
       if (!dept) return;
+      // Menus: leave this GitHub Pages shell and open the website page in the
+      // same tab (its own server PIN; no Apps Script / wrong-Google-account iframe).
+      if (id === 'menus') {
+        location.href = dept.url;
+        return;
+      }
       currentDept = id;
       document.getElementById('appTitle').textContent = dept.title;
       document.getElementById('landing').classList.remove('show');
