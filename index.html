@@ -497,10 +497,11 @@
     function openDept(id) {
       var dept = DEPTS[id];
       if (!dept) return;
-      // Menus / Card Takings: leave this GitHub Pages shell and open the website
-      // page in the same tab (its own server PIN; no Apps Script iframe).
+      // Menus / Card Takings: leave this GitHub Pages shell in the same tab
+      // (location.assign — not the app iframe). Card Takings uses a SameSite=Lax
+      // session cookie; top-level navigation matches Windmill and avoids iframe issues.
       if (id === 'menus' || id === 'cards') {
-        location.href = dept.url;
+        location.assign(dept.url);
         return;
       }
       currentDept = id;
