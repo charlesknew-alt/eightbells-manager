@@ -391,7 +391,8 @@
     var DEPTS = {
       paperwork: {
         title: 'Paperwork',
-        url: HUB
+        // Website manager paperwork (same tab — no Apps Script iframe).
+        url: 'https://www.eightbellsbolney.com/manager/eight-bells/paperwork'
       },
       menus: {
         title: 'Menus',
@@ -531,11 +532,11 @@
     function openDept(id) {
       var dept = DEPTS[id];
       if (!dept) return;
-      // Menus / Card Takings: leave this GitHub Pages shell in the same tab
-      // (not the app iframe). With the hub PIN in memory, POST hand-off so the
-      // website sets its session cookie; otherwise location.assign and the site
-      // asks for the PIN itself.
-      if (id === 'menus' || id === 'cards') {
+      // Menus / Card Takings / Paperwork: leave this GitHub Pages shell in the
+      // same tab (not the app iframe). With the hub PIN in memory, POST hand-off
+      // so the website sets its session cookie; otherwise location.assign and
+      // the site asks for the PIN itself.
+      if (id === 'menus' || id === 'cards' || id === 'paperwork') {
         if (rememberedPin && isWebsiteManagerUrl(dept.url)) {
           submitWebsiteHandoff(dept.url, rememberedPin);
         } else {
